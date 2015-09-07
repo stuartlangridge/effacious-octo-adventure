@@ -1,196 +1,578 @@
 <!DOCTYPE html>
 <html>
+
 <head>
-<title>Manifest generator</title>
-<script src="es6-promise.min.js"></script>
-<style>
-#dl { display: none; }
-pre {
-    overflow-y: auto;
-    background: #ccc;
-    height: 5em;
-    padding: 0.5em;
-}
-</style>
+    <meta charset="utf8">
+    <meta name="viewport" content="width=device-width, user-scalable=no">
+    <title>Manifest generator</title>
+    <script src="es6-promise.min.js"></script>
+    <style>
+    #dl {
+        display: none;
+    }
+    
+    pre {
+        overflow-y: auto;
+        background: #ccc;
+        height: 8em;
+        width: 50em;
+        padding: 0.5em;
+    }
+    
+    @-moz-keyframes pong-loader {
+        0% {
+            left: 5px;
+            top: 0;
+        }
+        25% {
+            left: 65px;
+            top: 20px;
+        }
+        50% {
+            left: 5px;
+        }
+        62.5% {
+            top: 50px;
+        }
+        75% {
+            left: 65px;
+            top: 70%;
+        }
+        100% {
+            left: 5px;
+            top: 0%;
+        }
+    }
+    
+    @-webkit-keyframes pong-loader {
+        0% {
+            left: 5px;
+            top: 0;
+        }
+        25% {
+            left: 65px;
+            top: 20px;
+        }
+        50% {
+            left: 5px;
+        }
+        62.5% {
+            top: 50px;
+        }
+        75% {
+            left: 65px;
+            top: 70%;
+        }
+        100% {
+            left: 5px;
+            top: 0%;
+        }
+    }
+    
+    @keyframes pong-loader {
+        0% {
+            left: 5px;
+            top: 0;
+        }
+        25% {
+            left: 65px;
+            top: 20px;
+        }
+        50% {
+            left: 5px;
+        }
+        62.5% {
+            top: 50px;
+        }
+        75% {
+            left: 65px;
+            top: 70%;
+        }
+        100% {
+            left: 5px;
+            top: 0%;
+        }
+    }
+    
+    @-moz-keyframes pong-loader-paddle-1 {
+        0% {
+            -moz-box-shadow: inset #353c39 0 5px 0 0, inset #353c39 0 -35px 0 0, inset #353c39 -3px 0 0 0, inset #8cdb8b -10px 0 0 0;
+            box-shadow: inset #353c39 0 5px 0 0, inset #353c39 0 -35px 0 0, inset #353c39 -3px 0 0 0, inset #8cdb8b -10px 0 0 0;
+        }
+        25% {
+            -moz-box-shadow: inset #353c39 0 15px 0 0, inset #353c39 0 -25px 0 0, inset #353c39 -3px 0 0 0, inset #8cdb8b -10px 0 0 0;
+            box-shadow: inset #353c39 0 15px 0 0, inset #353c39 0 -25px 0 0, inset #353c39 -3px 0 0 0, inset #8cdb8b -10px 0 0 0;
+        }
+        50% {
+            -moz-box-shadow: inset #353c39 0 0 0 0, inset #353c39 0 -40px 0 0, inset #353c39 -3px 0 0 0, inset #8cdb8b -10px 0 0 0;
+            box-shadow: inset #353c39 0 0 0 0, inset #353c39 0 -40px 0 0, inset #353c39 -3px 0 0 0, inset #8cdb8b -10px 0 0 0;
+        }
+        62.5% {
+            -moz-box-shadow: inset #353c39 0 10px 0 0, inset #353c39 0 -30px 0 0, inset #353c39 -3px 0 0 0, inset #8cdb8b -10px 0 0 0;
+            box-shadow: inset #353c39 0 10px 0 0, inset #353c39 0 -30px 0 0, inset #353c39 -3px 0 0 0, inset #8cdb8b -10px 0 0 0;
+        }
+        75% {
+            -moz-box-shadow: inset #353c39 0 40px 0 0, inset #353c39 0 0 0 0, inset #353c39 -3px 0 0 0, inset #8cdb8b -10px 0 0 0;
+            box-shadow: inset #353c39 0 40px 0 0, inset #353c39 0 0 0 0, inset #353c39 -3px 0 0 0, inset #8cdb8b -10px 0 0 0;
+        }
+        100% {
+            -moz-box-shadow: inset #353c39 0 5px 0 0, inset #353c39 0 -35px 0 0, inset #353c39 -3px 0 0 0, inset #8cdb8b -10px 0 0 0;
+            box-shadow: inset #353c39 0 5px 0 0, inset #353c39 0 -35px 0 0, inset #353c39 -3px 0 0 0, inset #8cdb8b -10px 0 0 0;
+        }
+    }
+    
+    @-webkit-keyframes pong-loader-paddle-1 {
+        0% {
+            -webkit-box-shadow: inset #353c39 0 5px 0 0, inset #353c39 0 -35px 0 0, inset #353c39 -3px 0 0 0, inset #8cdb8b -10px 0 0 0;
+            box-shadow: inset #353c39 0 5px 0 0, inset #353c39 0 -35px 0 0, inset #353c39 -3px 0 0 0, inset #8cdb8b -10px 0 0 0;
+        }
+        25% {
+            -webkit-box-shadow: inset #353c39 0 15px 0 0, inset #353c39 0 -25px 0 0, inset #353c39 -3px 0 0 0, inset #8cdb8b -10px 0 0 0;
+            box-shadow: inset #353c39 0 15px 0 0, inset #353c39 0 -25px 0 0, inset #353c39 -3px 0 0 0, inset #8cdb8b -10px 0 0 0;
+        }
+        50% {
+            -webkit-box-shadow: inset #353c39 0 0 0 0, inset #353c39 0 -40px 0 0, inset #353c39 -3px 0 0 0, inset #8cdb8b -10px 0 0 0;
+            box-shadow: inset #353c39 0 0 0 0, inset #353c39 0 -40px 0 0, inset #353c39 -3px 0 0 0, inset #8cdb8b -10px 0 0 0;
+        }
+        62.5% {
+            -webkit-box-shadow: inset #353c39 0 10px 0 0, inset #353c39 0 -30px 0 0, inset #353c39 -3px 0 0 0, inset #8cdb8b -10px 0 0 0;
+            box-shadow: inset #353c39 0 10px 0 0, inset #353c39 0 -30px 0 0, inset #353c39 -3px 0 0 0, inset #8cdb8b -10px 0 0 0;
+        }
+        75% {
+            -webkit-box-shadow: inset #353c39 0 40px 0 0, inset #353c39 0 0 0 0, inset #353c39 -3px 0 0 0, inset #8cdb8b -10px 0 0 0;
+            box-shadow: inset #353c39 0 40px 0 0, inset #353c39 0 0 0 0, inset #353c39 -3px 0 0 0, inset #8cdb8b -10px 0 0 0;
+        }
+        100% {
+            -webkit-box-shadow: inset #353c39 0 5px 0 0, inset #353c39 0 -35px 0 0, inset #353c39 -3px 0 0 0, inset #8cdb8b -10px 0 0 0;
+            box-shadow: inset #353c39 0 5px 0 0, inset #353c39 0 -35px 0 0, inset #353c39 -3px 0 0 0, inset #8cdb8b -10px 0 0 0;
+        }
+    }
+    
+    @keyframes pong-loader-paddle-1 {
+        0% {
+            -moz-box-shadow: inset #353c39 0 5px 0 0, inset #353c39 0 -35px 0 0, inset #353c39 -3px 0 0 0, inset #8cdb8b -10px 0 0 0;
+            -webkit-box-shadow: inset #353c39 0 5px 0 0, inset #353c39 0 -35px 0 0, inset #353c39 -3px 0 0 0, inset #8cdb8b -10px 0 0 0;
+            box-shadow: inset #353c39 0 5px 0 0, inset #353c39 0 -35px 0 0, inset #353c39 -3px 0 0 0, inset #8cdb8b -10px 0 0 0;
+        }
+        25% {
+            -moz-box-shadow: inset #353c39 0 15px 0 0, inset #353c39 0 -25px 0 0, inset #353c39 -3px 0 0 0, inset #8cdb8b -10px 0 0 0;
+            -webkit-box-shadow: inset #353c39 0 15px 0 0, inset #353c39 0 -25px 0 0, inset #353c39 -3px 0 0 0, inset #8cdb8b -10px 0 0 0;
+            box-shadow: inset #353c39 0 15px 0 0, inset #353c39 0 -25px 0 0, inset #353c39 -3px 0 0 0, inset #8cdb8b -10px 0 0 0;
+        }
+        50% {
+            -moz-box-shadow: inset #353c39 0 0 0 0, inset #353c39 0 -40px 0 0, inset #353c39 -3px 0 0 0, inset #8cdb8b -10px 0 0 0;
+            -webkit-box-shadow: inset #353c39 0 0 0 0, inset #353c39 0 -40px 0 0, inset #353c39 -3px 0 0 0, inset #8cdb8b -10px 0 0 0;
+            box-shadow: inset #353c39 0 0 0 0, inset #353c39 0 -40px 0 0, inset #353c39 -3px 0 0 0, inset #8cdb8b -10px 0 0 0;
+        }
+        62.5% {
+            -moz-box-shadow: inset #353c39 0 10px 0 0, inset #353c39 0 -30px 0 0, inset #353c39 -3px 0 0 0, inset #8cdb8b -10px 0 0 0;
+            -webkit-box-shadow: inset #353c39 0 10px 0 0, inset #353c39 0 -30px 0 0, inset #353c39 -3px 0 0 0, inset #8cdb8b -10px 0 0 0;
+            box-shadow: inset #353c39 0 10px 0 0, inset #353c39 0 -30px 0 0, inset #353c39 -3px 0 0 0, inset #8cdb8b -10px 0 0 0;
+        }
+        75% {
+            -moz-box-shadow: inset #353c39 0 40px 0 0, inset #353c39 0 0 0 0, inset #353c39 -3px 0 0 0, inset #8cdb8b -10px 0 0 0;
+            -webkit-box-shadow: inset #353c39 0 40px 0 0, inset #353c39 0 0 0 0, inset #353c39 -3px 0 0 0, inset #8cdb8b -10px 0 0 0;
+            box-shadow: inset #353c39 0 40px 0 0, inset #353c39 0 0 0 0, inset #353c39 -3px 0 0 0, inset #8cdb8b -10px 0 0 0;
+        }
+        100% {
+            -moz-box-shadow: inset #353c39 0 5px 0 0, inset #353c39 0 -35px 0 0, inset #353c39 -3px 0 0 0, inset #8cdb8b -10px 0 0 0;
+            -webkit-box-shadow: inset #353c39 0 5px 0 0, inset #353c39 0 -35px 0 0, inset #353c39 -3px 0 0 0, inset #8cdb8b -10px 0 0 0;
+            box-shadow: inset #353c39 0 5px 0 0, inset #353c39 0 -35px 0 0, inset #353c39 -3px 0 0 0, inset #8cdb8b -10px 0 0 0;
+        }
+    }
+    
+    @-moz-keyframes pong-loader-paddle-2 {
+        0% {
+            -moz-box-shadow: inset #353c39 0 0 0 0, inset #353c39 0 -40px 0 0, inset #353c39 3px 0 0 0, inset #8cdb8b -10px 0 0 0;
+            box-shadow: inset #353c39 0 0 0 0, inset #353c39 0 -40px 0 0, inset #353c39 3px 0 0 0, inset #8cdb8b -10px 0 0 0;
+        }
+        50% {
+            -moz-box-shadow: inset #353c39 0 30px 0 0, inset #353c39 0 -10px 0 0, inset #353c39 3px 0 0 0, inset #8cdb8b -10px 0 0 0;
+            box-shadow: inset #353c39 0 30px 0 0, inset #353c39 0 -10px 0 0, inset #353c39 3px 0 0 0, inset #8cdb8b -10px 0 0 0;
+        }
+        62.5% {
+            -moz-box-shadow: inset #353c39 0 40px 0 0, inset #353c39 0 0 0 0, inset #353c39 3px 0 0 0, inset #8cdb8b -10px 0 0 0;
+            box-shadow: inset #353c39 0 40px 0 0, inset #353c39 0 0 0 0, inset #353c39 3px 0 0 0, inset #8cdb8b -10px 0 0 0;
+        }
+        75% {
+            -moz-box-shadow: inset #353c39 0 20px 0 0, inset #353c39 0 -20px 0 0, inset #353c39 3px 0 0 0, inset #8cdb8b -10px 0 0 0;
+            box-shadow: inset #353c39 0 20px 0 0, inset #353c39 0 -20px 0 0, inset #353c39 3px 0 0 0, inset #8cdb8b -10px 0 0 0;
+        }
+        100% {
+            -moz-box-shadow: inset #353c39 0 0 0 0, inset #353c39 0 -40px 0 0, inset #353c39 3px 0 0 0, inset #8cdb8b -10px 0 0 0;
+            box-shadow: inset #353c39 0 0 0 0, inset #353c39 0 -40px 0 0, inset #353c39 3px 0 0 0, inset #8cdb8b -10px 0 0 0;
+        }
+    }
+    
+    @-webkit-keyframes pong-loader-paddle-2 {
+        0% {
+            -webkit-box-shadow: inset #353c39 0 0 0 0, inset #353c39 0 -40px 0 0, inset #353c39 3px 0 0 0, inset #8cdb8b -10px 0 0 0;
+            box-shadow: inset #353c39 0 0 0 0, inset #353c39 0 -40px 0 0, inset #353c39 3px 0 0 0, inset #8cdb8b -10px 0 0 0;
+        }
+        50% {
+            -webkit-box-shadow: inset #353c39 0 30px 0 0, inset #353c39 0 -10px 0 0, inset #353c39 3px 0 0 0, inset #8cdb8b -10px 0 0 0;
+            box-shadow: inset #353c39 0 30px 0 0, inset #353c39 0 -10px 0 0, inset #353c39 3px 0 0 0, inset #8cdb8b -10px 0 0 0;
+        }
+        62.5% {
+            -webkit-box-shadow: inset #353c39 0 40px 0 0, inset #353c39 0 0 0 0, inset #353c39 3px 0 0 0, inset #8cdb8b -10px 0 0 0;
+            box-shadow: inset #353c39 0 40px 0 0, inset #353c39 0 0 0 0, inset #353c39 3px 0 0 0, inset #8cdb8b -10px 0 0 0;
+        }
+        75% {
+            -webkit-box-shadow: inset #353c39 0 20px 0 0, inset #353c39 0 -20px 0 0, inset #353c39 3px 0 0 0, inset #8cdb8b -10px 0 0 0;
+            box-shadow: inset #353c39 0 20px 0 0, inset #353c39 0 -20px 0 0, inset #353c39 3px 0 0 0, inset #8cdb8b -10px 0 0 0;
+        }
+        100% {
+            -webkit-box-shadow: inset #353c39 0 0 0 0, inset #353c39 0 -40px 0 0, inset #353c39 3px 0 0 0, inset #8cdb8b -10px 0 0 0;
+            box-shadow: inset #353c39 0 0 0 0, inset #353c39 0 -40px 0 0, inset #353c39 3px 0 0 0, inset #8cdb8b -10px 0 0 0;
+        }
+    }
+    
+    @keyframes pong-loader-paddle-2 {
+        0% {
+            -moz-box-shadow: inset #353c39 0 0 0 0, inset #353c39 0 -40px 0 0, inset #353c39 3px 0 0 0, inset #8cdb8b -10px 0 0 0;
+            -webkit-box-shadow: inset #353c39 0 0 0 0, inset #353c39 0 -40px 0 0, inset #353c39 3px 0 0 0, inset #8cdb8b -10px 0 0 0;
+            box-shadow: inset #353c39 0 0 0 0, inset #353c39 0 -40px 0 0, inset #353c39 3px 0 0 0, inset #8cdb8b -10px 0 0 0;
+        }
+        50% {
+            -moz-box-shadow: inset #353c39 0 30px 0 0, inset #353c39 0 -10px 0 0, inset #353c39 3px 0 0 0, inset #8cdb8b -10px 0 0 0;
+            -webkit-box-shadow: inset #353c39 0 30px 0 0, inset #353c39 0 -10px 0 0, inset #353c39 3px 0 0 0, inset #8cdb8b -10px 0 0 0;
+            box-shadow: inset #353c39 0 30px 0 0, inset #353c39 0 -10px 0 0, inset #353c39 3px 0 0 0, inset #8cdb8b -10px 0 0 0;
+        }
+        62.5% {
+            -moz-box-shadow: inset #353c39 0 40px 0 0, inset #353c39 0 0 0 0, inset #353c39 3px 0 0 0, inset #8cdb8b -10px 0 0 0;
+            -webkit-box-shadow: inset #353c39 0 40px 0 0, inset #353c39 0 0 0 0, inset #353c39 3px 0 0 0, inset #8cdb8b -10px 0 0 0;
+            box-shadow: inset #353c39 0 40px 0 0, inset #353c39 0 0 0 0, inset #353c39 3px 0 0 0, inset #8cdb8b -10px 0 0 0;
+        }
+        75% {
+            -moz-box-shadow: inset #353c39 0 20px 0 0, inset #353c39 0 -20px 0 0, inset #353c39 3px 0 0 0, inset #8cdb8b -10px 0 0 0;
+            -webkit-box-shadow: inset #353c39 0 20px 0 0, inset #353c39 0 -20px 0 0, inset #353c39 3px 0 0 0, inset #8cdb8b -10px 0 0 0;
+            box-shadow: inset #353c39 0 20px 0 0, inset #353c39 0 -20px 0 0, inset #353c39 3px 0 0 0, inset #8cdb8b -10px 0 0 0;
+        }
+        100% {
+            -moz-box-shadow: inset #353c39 0 0 0 0, inset #353c39 0 -40px 0 0, inset #353c39 3px 0 0 0, inset #8cdb8b -10px 0 0 0;
+            -webkit-box-shadow: inset #353c39 0 0 0 0, inset #353c39 0 -40px 0 0, inset #353c39 3px 0 0 0, inset #8cdb8b -10px 0 0 0;
+            box-shadow: inset #353c39 0 0 0 0, inset #353c39 0 -40px 0 0, inset #353c39 3px 0 0 0, inset #8cdb8b -10px 0 0 0;
+        }
+    }
+    /* :not(:required) hides this rule from IE9 and below */
+    
+    .pong-loader:not(:required) {
+        width: 80px;
+        height: 60px;
+        background: #353c39;
+        position: relative;
+        display: inline-block;
+        overflow: hidden;
+        text-indent: 100%;
+        -moz-box-shadow: inset #353c39 0 0 0 0, inset #353c39 0 -40px 0 0, inset #353c39 -3px 0 0 0, inset #8cdb8b -10px 0 0 0;
+        -webkit-box-shadow: inset #353c39 0 0 0 0, inset #353c39 0 -40px 0 0, inset #353c39 -3px 0 0 0, inset #8cdb8b -10px 0 0 0;
+        box-shadow: inset #353c39 0 0 0 0, inset #353c39 0 -40px 0 0, inset #353c39 -3px 0 0 0, inset #8cdb8b -10px 0 0 0;
+        -moz-animation: pong-loader-paddle-1 1500ms infinite linear;
+        -webkit-animation: pong-loader-paddle-1 1500ms infinite linear;
+        animation: pong-loader-paddle-1 1500ms infinite linear;
+    }
+    
+    .pong-loader:not(:required):before {
+        -moz-animation: pong-loader-paddle-2 1500ms infinite linear;
+        -webkit-animation: pong-loader-paddle-2 1500ms infinite linear;
+        animation: pong-loader-paddle-2 1500ms infinite linear;
+        position: absolute;
+        top: 0;
+        left: 0;
+        display: block;
+        content: "";
+        width: 10px;
+        height: 100%;
+        -moz-box-shadow: inset #353c39 0 0 0 0, inset #353c39 0 -40px 0 0, inset #353c39 -3px 0 0 0, inset #8cdb8b -10px 0 0 0;
+        -webkit-box-shadow: inset #353c39 0 0 0 0, inset #353c39 0 -40px 0 0, inset #353c39 -3px 0 0 0, inset #8cdb8b -10px 0 0 0;
+        box-shadow: inset #353c39 0 0 0 0, inset #353c39 0 -40px 0 0, inset #353c39 -3px 0 0 0, inset #8cdb8b -10px 0 0 0;
+    }
+    
+    .pong-loader:not(:required):after {
+        content: "";
+        display: block;
+        -moz-animation: pong-loader 1500ms infinite linear;
+        -webkit-animation: pong-loader 1500ms infinite linear;
+        animation: pong-loader 1500ms infinite linear;
+        -moz-border-radius: 50%;
+        -webkit-border-radius: 50%;
+        border-radius: 50%;
+        position: absolute;
+        left: 0;
+        top: 0;
+        width: 10px;
+        height: 10px;
+        background: #8cdb8b;
+    }
+    </style>
+    <script src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/spectrum/1.7.1/spectrum.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/spectrum/1.7.1/spectrum.min.css">
 </head>
+
 <body>
-<form>
-    <p><label>enter url <input name="url" type="url" value="http://www.opera.com"></label></p>
-    <p>orientation: 
-        <label><input type="radio" name="orientation" value="portrait" checked> portrait</label>
-        <label><input type="radio" name="orientation" value="landscape"> landscape</label>
-    </p>
-    <p><label>fullscreen (https only)? <input type="checkbox" name="fullscreen" disabled></label></p>
-    <input type="submit">
-</form>
-<p><a href="#" id="dl" download="offline.manifest">Download <em>offline.manifest</em></a></p>
-<pre>...</pre>
-<script>
-var m = {
-  "lang": "en",
-  "name": "Super Racer 2000",
-  "short_name": "Racer2K",
-  "icons": [{
-        "src": "icon/lowres",
-        "sizes": "64x64",
-        "type": "image/webp"
-      }, {
-        "src": "icon/hd_small",
-        "sizes": "64x64"
-      }, {
-        "src": "icon/hd_hi",
-        "sizes": "128x128",
-        "density": 2
-      }],
-  "splash_screens": [{
-        "src": "splash/lowres",
-        "sizes": "320x240"
-      }, {
-        "src": "splash/hd_small",
-        "sizes": "1334x750"
-      }, {
-        "src": "splash/hd_hi",
-        "sizes": "1920x1080",
-        "density": 3
-      }],
-  "scope": "/racer/",
-  "start_url": "/racer/start.html",
-  "display": "fullscreen",
-  "orientation": "landscape",
-  "theme_color": "aliceblue",
-  "background_color": "red"
-};
+    <form>
+        <p>
+            <label>enter url
+                <input name="url" type="url" value="http://www.opera.com">
+            </label>
+        </p>
+        <p>
+            <label>name
+                <input name="name" type="text" maxlength="45" size="45" value="">
+            </label>
+        </p>
+        <p>
+            <label>short name
+                <input name="short_name" type="text" size="12" value="">
+            </label>
+        </p>
+        <p>orientation:
+            <label>
+                <input type="radio" name="orientation" value="none" checked> none</label>
+            <label>
+                <input type="radio" name="orientation" value="portrait"> portrait</label>
+            <label>
+                <input type="radio" name="orientation" value="landscape"> landscape</label>
+        </p>
+        <p>
+            <label>fullscreen (https only)?
+                <input type="checkbox" name="fullscreen" disabled>
+            </label>
+        </p>
+        <p>
+            <label>background colour
+                <input type="color" name="bgcolor" value='#ffffff'>
+            </label>
+        </p>
+        <input type="submit">
+    </form>
+    <div id="errors"></div>
+    <p><a href="#" id="dl" download="offline.manifest">Download <em>offline.manifest</em></a></p>
+    <pre>...</pre>
+    <script>
+    var m = {
+        "lang": "en",
+        "name": "Super Racer 2000",
+        "short_name": "Racer2K",
+        "icons": [{
+            "src": "icon/lowres",
+            "sizes": "64x64",
+            "type": "image/webp"
+        }, {
+            "src": "icon/hd_small",
+            "sizes": "64x64"
+        }, {
+            "src": "icon/hd_hi",
+            "sizes": "128x128",
+            "density": 2
+        }],
+        "splash_screens": [{
+            "src": "splash/lowres",
+            "sizes": "320x240"
+        }, {
+            "src": "splash/hd_small",
+            "sizes": "1334x750"
+        }, {
+            "src": "splash/hd_hi",
+            "sizes": "1920x1080",
+            "density": 3
+        }],
+        "scope": "/racer/",
+        "start_url": "/racer/start.html",
+        "display": "fullscreen",
+        "orientation": "landscape",
+        "theme_color": "aliceblue",
+        "background_color": "red"
+    };
 
-(function() {
-    var manifest;
-    if (!window.URL && window.webkitURL) window.URL = window.webkitURL;
+    (function() {
+        var manifest;
+        if (!window.URL && window.webkitURL) window.URL = window.webkitURL;
 
-    function getImageMimeType(imgurl, userdata) {
-        return new Promise(function(resolve, reject) {
+        function getImageMimeType(imgurl, userdata) {
+            return new Promise(function(resolve, reject) {
+                var xhr = new XMLHttpRequest();
+                xhr.open("GET", "http://crossorigin.me/" + imgurl, true);
+                xhr.onload = function() {
+                    clearTimeout(tAbort);
+                    if (xhr.status == 200) {
+                        resolve({
+                            url: imgurl,
+                            userdata: userdata,
+                            mimetype: xhr.getResponseHeader("Content-Type")
+                        });
+                    } else {
+                        reject(Error("Mime-type request failed with status " + xhr.status + " and message " + xhr.statusText));
+                    }
+                };
+                xhr.onerror = function() {
+                    reject(Error("Network error"));
+                };
+                var tAbort = setTimeout(function() {
+                    xhr.abort();
+                    reject(Error("Mime-type request timed out"));
+                }, 1000);
+                xhr.send();
+            });
+        }
+
+        function reflect(promise) {
+            return promise.then(function(v) {
+                    return {
+                        v: v,
+                        status: "resolved"
+                    };
+                },
+                function(e) {
+                    return {
+                        e: e,
+                        status: "rejected"
+                    };
+                });
+        }
+
+        function setDownloadUrl() {
+            var a = document.getElementById('dl');
+            if (a) {
+                window.URL.revokeObjectURL(a.href);
+            }
+            var bb = new Blob([JSON.stringify(manifest, null, 2)], {
+                type: "text/plain"
+            });
+            a.href = window.URL.createObjectURL(bb);
+        }
+
+        function display(errors) {
+            document.querySelector("pre").firstChild.nodeValue = JSON.stringify(manifest, null, 2);
+            document.getElementById("dl").style.display = "inline";
+            var errel = document.getElementById("errors");
+            errel.innerHTML = "";
+            var ul = document.createElement("ul");
+            errors.forEach(function(err) {
+                var li = document.createElement("li");
+                li.appendChild(document.createTextNode(err));
+                ul.appendChild(li);
+            });
+            errel.appendChild(ul);
+            document.querySelector("pre").classList.remove("pong-loader");
+        }
+
+        function updateUserSelections() {
+            var errors = [];
+            manifest.orientation = document.querySelector("[name=orientation]:checked").value;
+            if (manifest.orientation === "none") delete manifest.orientation;
+            manifest.background_color = document.getElementsByName("bgcolor")[0].value;
+            manifest.name = document.getElementsByName("name")[0].value;
+            manifest.short_name = document.getElementsByName("short_name")[0].value;
+            if (manifest.short_name.length > 12) {
+                errors.push("Warning: short_name should be 12 characters or less");
+            }
+            delete manifest.fullscreen;
+            if (document.getElementsByName("fullscreen")[0].checked) {
+                manifest.display = "fullscreen";
+            }
+            return errors;
+        }
+
+        function parse(html) {
+            var d = document.createElement("div"), errors = [];
+            d.innerHTML = html;
+            manifest = {};
+            var mimeTypeFetches = [];
+
+            // Basic data
+            var title = d.querySelector("title");
+            if (title) {
+                document.getElementsByName("name")[0].value = title.textContent.substr(0,45);
+                document.getElementsByName("short_name")[0].value = title.textContent.substr(0,12);
+            }
+
+            // Language: can't pull this out of d because the html element doesn't get inserted, so, regexps it is. Sorry, Tony the Pony
+            var langmatch = html.match(/<html [^>]*\blang="([^"]+)"[^>]*>/i);
+            if (langmatch) {
+                manifest.lang = langmatch[1];
+            }
+
+            // User selections
+            errors = errors.concat(updateUserSelections());
+
+            // Apple touch icons
+            [].slice.call(d.querySelectorAll('link[rel="apple-touch-icon"][href]')).forEach(function(l) {
+                mimeTypeFetches.push(getImageMimeType(l.getAttribute("href"), {
+                    sizes: l.getAttribute("sizes")
+                }));
+            });
+
+            Promise.all(mimeTypeFetches.map(reflect)).then(function(results) { // we know they all pass because they're reflected
+                manifest.icons = results.filter(function(r) {
+                    return r.status == "resolved";
+                }).map(function(r) {
+                    return {
+                        src: r.v.url,
+                        type: r.v.mimetype,
+                        sizes: r.v.userdata.sizes
+                    };
+                });
+                if (manifest.icons.filter(function(i) { return i.sizes === "144x144"; }).length === 0) {
+                    manifest.icons.push({
+                        src: "YOU-NEED-TO-HAVE-A-144-x-144-ICON.png", sizes: "144x144", type: "image/png"
+                    });
+                }
+                display(errors);
+            });
+        }
+
+        function get(url) {
+            console.log("fetching...");
             var xhr = new XMLHttpRequest();
-            xhr.open("GET", "http://crossorigin.me/" + imgurl, true);
+            xhr.open("GET", "http://crossorigin.me/" + url, true);
             xhr.onload = function() {
-                clearTimeout(tAbort);
                 if (xhr.status == 200) {
-                    resolve({url: imgurl, userdata: userdata, mimetype: xhr.getResponseHeader("Content-Type")});
+                    parse(xhr.responseText);
                 } else {
-                    reject(Error("Mime-type request failed with status " + xhr.status + " and message " + xhr.statusText));
+                    alert("didn't work. Soz.");
+                    document.querySelector("pre").classList.remove("pong-loader");
                 }
             };
-            xhr.onerror = function() {
-                reject(Error("Network error"));
-            };
-            var tAbort = setTimeout(function() {
-                xhr.abort();
-                reject(Error("Mime-type request timed out"));
-            }, 1000);
             xhr.send();
-        });
-    }
-
-    function reflect(promise){
-        return promise.then(function(v){ return {v:v, status: "resolved" }; },
-                            function(e){ return {e:e, status: "rejected" }; });
-    }
-
-    function setDownloadUrl() {
-        var a = document.getElementById('dl');
-        if (a) {
-            window.URL.revokeObjectURL(a.href);
         }
-        var bb = new Blob([JSON.stringify(manifest, null, 2)], {type: "text/plain"});
-        a.href = window.URL.createObjectURL(bb);
-    }
 
-    function display() {
-        document.querySelector("pre").firstChild.nodeValue = JSON.stringify(manifest, null, 2);
-        document.getElementById("dl").style.display = "inline";
-    }
-
-    function updateUserSelections() {
-        manifest.orientation = document.querySelector("[name=orientation]:checked").value;
-        delete manifest.fullscreen;
-        if (document.getElementsByName("fullscreen")[0].checked) {
-            manifest.display = "fullscreen";
-        }
-    }
-
-    function parse(html) {
-        var d = document.createElement("div");
-        d.innerHTML = html;
-        manifest = {};
-        var mimeTypeFetches = [];
-
-        // Basic data
-        var title = d.querySelector("title");
-        if (title) { manifest.name = title.textContent; }
-
-        // Language: can't pull this out of d because the html element doesn't get inserted, so, regexps it is. Sorry, Tony the Pony
-        var langmatch = html.match(/<html [^>]*\blang="([^"]+)"[^>]*>/i);
-        if (langmatch) { manifest.lang = langmatch[1]; }
-
-        // User selections
-        updateUserSelections();
-
-        // Apple touch icons
-        [].slice.call(d.querySelectorAll('link[rel="apple-touch-icon"][href]')).forEach(function(l) {
-            mimeTypeFetches.push(getImageMimeType(l.getAttribute("href"), {sizes: l.getAttribute("sizes")}));
+        [].slice.call(document.querySelectorAll("input[type=radio],input[type=color]")).forEach(function(widget) {
+            widget.addEventListener("change", function(e) {
+                if (manifest) {
+                    display(updateUserSelections());
+                }
+            }, false);
         });
-
-        Promise.all(mimeTypeFetches.map(reflect)).then(function(results) { // we know they all pass because they're reflected
-            manifest.icons = results.filter(function(r) {
-                return r.status == "resolved";
-            }).map(function(r) {
-                return {
-                    src: r.v.url,
-                    type: r.v.mimetype,
-                    sizes: r.v.userdata.sizes
-                };
-            });
-            display();
+        [].slice.call(document.querySelectorAll("input[type=text]")).forEach(function(widget) {
+            widget.addEventListener("keyup", function(e) {
+                if (manifest) {
+                    updateUserSelections();
+                    display(updateUserSelections());
+                }
+            }, false);
         });
-    }
-
-    function get(url) {
-        console.log("fetching...");
-        var xhr = new XMLHttpRequest();
-        xhr.open("GET", "http://crossorigin.me/" + url, true);
-        xhr.onload = function() {
-            if (xhr.status == 200) {
-                parse(xhr.responseText);
+        var textUrl = document.querySelector("[name=url]"),
+            cbFullscreen = document.querySelector("[name=fullscreen]");
+        textUrl.addEventListener("keyup", function(e) {
+            if (textUrl.value.match(/^https:/)) {
+                cbFullscreen.disabled = false;
             } else {
-                alert("didn't work. Soz.");
+                cbFullscreen.checked = false;
+                cbFullscreen.disabled = true;
             }
-        };
-        xhr.send();
-    }
+        });
 
-    [].slice.call(document.querySelectorAll("input[type=radio]")).forEach(function(widget) {
-        widget.addEventListener("change", function(e) {
-            if (manifest) {
-                updateUserSelections();
-                display();
-            }
+        document.getElementById("dl").addEventListener("click", setDownloadUrl, false);
+
+        document.querySelector("form").addEventListener("submit", function(e) {
+            e.preventDefault();
+            document.querySelector("pre").classList.add("pong-loader");
+            get(document.querySelector("input[type=url]").value);
         }, false);
-    });
-    var textUrl = document.querySelector("[name=url]"),
-        cbFullscreen = document.querySelector("[name=fullscreen]");
-    textUrl.addEventListener("keyup", function(e) {
-        if (textUrl.value.match(/^https:/)) {
-            cbFullscreen.disabled = false;
-        } else {
-            cbFullscreen.checked = false;
-            cbFullscreen.disabled = true;
-        }
-    });
-
-    document.getElementById("dl").addEventListener("click", setDownloadUrl, false);
-
-    document.querySelector("form").addEventListener("submit", function(e) {
-        e.preventDefault();
-        get(document.querySelector("input[type=url]").value);
-    }, false);
-})();
-</script>
+    })();
+    </script>
 </body>
+
 </html>
