@@ -1,6 +1,6 @@
 {
     "lang": "en",
-    "name": "Manifest title",
+    "name": "Title taken from manifest",
     "short_name": "ManifestTest",
     "icons": [{
         "src": "icon128.png",
@@ -24,7 +24,6 @@
         "sizes": "1920x1080",
         "density": 3
     }],
-    "scope": "/",
     "display": "fullscreen",
     "orientation": "landscape",
     "theme_color": "aliceblue",
