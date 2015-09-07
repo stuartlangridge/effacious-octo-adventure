@@ -1,6 +1,6 @@
 {
     "lang": "en",
-    "name": "Title taken from manifest",
+    "name": "Manifest Test",
     "short_name": "ManifestTest",
     "icons": [{
         "src": "icon128.png",
@@ -12,17 +12,6 @@
     },{
         "src": "icon256.png",
         "sizes": "144x144"
-    }],
-    "splash_screens": [{
-        "src": "splash/lowres",
-        "sizes": "320x240"
-    }, {
-        "src": "splash/hd_small",
-        "sizes": "1334x750"
-    }, {
-        "src": "splash/hd_hi",
-        "sizes": "1920x1080",
-        "density": 3
     }],
     "display": "fullscreen",
     "orientation": "landscape",
