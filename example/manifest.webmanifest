@@ -25,7 +25,6 @@
         "density": 3
     }],
     "scope": "/",
-    "start_url": "exampleapp.html",
     "display": "fullscreen",
     "orientation": "landscape",
     "theme_color": "aliceblue",
