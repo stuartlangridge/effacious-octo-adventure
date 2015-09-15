@@ -392,6 +392,12 @@
     };
 
     (function() {
+
+        if (location.href.match(/^https:/)) {
+            location.href = location.href.replace(/^https:/, "http:");
+            return;
+        }
+
         var manifest;
         if (!window.URL && window.webkitURL) window.URL = window.webkitURL;
 
@@ -402,11 +408,19 @@
                 xhr.onload = function() {
                     clearTimeout(tAbort);
                     if (xhr.status == 200) {
-                        resolve({
-                            url: imgurl,
-                            userdata: userdata,
-                            mimetype: xhr.getResponseHeader("Content-Type")
-                        });
+                        var img = new Image();
+                        img.onload = function() {
+                            resolve({
+                                url: imgurl,
+                                actualSize: img.naturalWidth + "x" + img.naturalHeight,
+                                userdata: userdata,
+                                mimetype: xhr.getResponseHeader("Content-Type")
+                            });
+                        };
+                        img.onerror = function() {
+                            reject(Error("Image load request failed"));
+                        };
+                        img.src = imgurl;
                     } else {
                         reject(Error("Mime-type request failed with status " + xhr.status + " and message " + xhr.statusText));
                     }
@@ -504,7 +518,7 @@
             errors = errors.concat(updateUserSelections());
 
             // Apple touch icons
-            [].slice.call(d.querySelectorAll('link[rel="apple-touch-icon"][href]')).forEach(function(l) {
+            [].slice.call(d.querySelectorAll('link[rel="apple-touch-icon"][href],link[rel="apple-touch-icon-precomposed"][href]')).forEach(function(l) {
                 mimeTypeFetches.push(getImageMimeType(l.getAttribute("href"), {
                     sizes: l.getAttribute("sizes")
                 }));
@@ -517,7 +531,8 @@
                     return {
                         src: r.v.url,
                         type: r.v.mimetype,
-                        sizes: r.v.userdata.sizes
+                        sizes: r.v.userdata.sizes,
+                        actualSize: r.v.actualSize
                     };
                 });
                 if (manifest.icons.filter(function(i) { return i.sizes === "144x144"; }).length === 0) {
