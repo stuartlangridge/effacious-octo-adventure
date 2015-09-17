@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html>
 
@@ -6,6 +7,7 @@
     <meta name="viewport" content="width=device-width, user-scalable=no">
     <title>Manifest generator</title>
     <script src="es6-promise.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="normalise.css">
     <style>
     #dl {
         display: none;
@@ -304,6 +306,27 @@
         height: 10px;
         background: #8cdb8b;
     }
+
+/* As Archimedes said, "Εα φοσεντ σπλενδιδε πρω. Εαμ μυνερε αλτερα σωνσεπθαμ νε, αδ ιγνωθα ινφενιρε μεα. Δυο εξ δεσωρε φολυμυς φερθερεμ, υθ νες διστα περφεσθο. Εαμ ελιτ βωνορυμ ευ. Κυι εα φασερ πρωπριαε τασιμαθες, ναμ φιδε σονσυλατυ ραθιονιβυς εξ.", or "If you have absolutely no design sensibility at all, keep if very simple and don't muck about with CSS, you oaf." */
+
+
+html {
+    background-color: rgb(245,245,245);
+}
+body {padding:1em 3em; max-width:50em; margin:0 auto;
+    font-family:"Trebuchet MS", Helvetica, sans-serif;
+    line-height:1.8;
+    background-color:white;
+}
+
+h1 {color: rgb(220, 20, 31);}
+
+section {border-top: 1px solid #ccc; margin-bottom:1em;}
+
+footer {font-size: small; text-align: center; padding-bottom:75px; 
+        background: url(logo.png) center bottom no-repeat;}
+
+
     </style>
     <script src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/spectrum/1.7.1/spectrum.min.js"></script>
@@ -311,50 +334,98 @@
 </head>
 
 <body>
+<h1>Offline Manifest Generator</h1>
+<p>Would you like your website</p>
+<uL>
+<li>to feel like a native app (without writing one)?</li>
+<li>to appear on the user's Android homescreen?</li>
+<li>to start full screen (rather than in a browser)?</li>
+</ul>
+<p>If so, this simple page will generate the manifest file for you to put on your server to make it happen in Chrome and Opera for Android. (<a href="http://html5doctor.com/web-manifest-specification/">More about the web manifest format</a>, and download <a href="http://www.opera.com/mobile/operabrowser/android">Opera for Android</a> to try it out.)</p>
+
+
+
     <form>
-        <p>
-            <label>enter url
-                <input name="url" type="url" value="http://www.opera.com">
+        <section>
+        <h2>First</h2>
+        <p>Tell us the address of your site and click "check my site". The page will then look at your site and get any useful information and usable icons it can from the publicly-available information in the code.</p>
+            <div>
+            <label>Enter your address: 
+                <input name="url" type="url" size="30" value="http://www.opera.com">
             </label>
-            <input type="submit" value="Check my head">
-        </p>
-        <p>
-            <label>name
-                <input name="name" type="text" maxlength="45" size="45" value="">
-            </label>
-        </p>
-        <p>
-            <label>short name
-                <input name="short_name" type="text" size="12" value="">
-            </label>
-        </p>
-        <p class="orientation">orientation:
+            <input type="submit" value="Check my site">
+           </div>
+        </section>
+
+        <section>
+    <h2>Next&hellip;</h2>
+    <p>We got this information your site. Change it, if you want. The <code>short name</code> is what will actually be shown below your icon on the Android homescreen — keep it short!</p>
+        <div id="names">
+            <label for="l-name">Name</label>
+            <input id="l-name" name="name" type="text" maxlength="45" size="45" value="">
+
+        </div>
+
+
+        <div>
+            <label for="s-name">Short name</label>
+            <input id="s-name" name="short_name" type="text" size="12" value="">
+
+        </div>
+        </section>
+
+        <section>
+        <h2>Options</h2>
+        <h3>Set orientation</h3>
+
+        <p>Does your website/ app need to start at a certain orientation?</p>
+        <div class="orientation">Orientation:
             <label>
                 <input type="radio" name="orientation" value="none" checked> none</label>
             <label>
                 <input type="radio" name="orientation" value="portrait"> portrait</label>
             <label>
                 <input type="radio" name="orientation" value="landscape"> landscape</label>
-        </p>
-        <p>
-            <label>fullscreen (https only)?
+        </div>
+
+        <h3>Start full screen?</h3>
+        <p>Sites served over <code>https</code> can start fullscreen, and if so you can check the box to tell Android to start your site full-screen like any other app.</p><p>Insecure <code>http</code>-only sites can’t start full screen (because it’s a security risk; hackers could, for example, spoof a bank site.) Therefore, they start in a browser so the user can always see the real address. In this case, the checkbox is disabled.</p>
+    
+        <div>
+            <label>Fullscreen?
                 <input type="checkbox" name="fullscreen" disabled>
             </label>
-        </p>
-        <p>
-            <label>background colour
+        </div>
+
+        <h3>Set a background colour</h3>
+        <p>While your app is being loaded, the background fills the sceen to show your user that something is happening. You may want to choose the predominant colour in your page or branding. (<a target="_blank" href="https://developers.google.com/web/updates/2015/09/using-web-app-manifest-to-set-solid-color-loading-screen">More about background colour</a>)</p>
+        <div>
+            <label>Choose background colour
                 <input type="color" name="bgcolor" value='#ffffff'>
             </label>
-        </p>
-        <p>
-            <label>theme colour
+        </div>
+        <h3>Set a theme colour</h3>
+        <div>
+        <p>Theme color is used to help your visitors identify your app in some system functions such as "task switching". (<a target="_blank" href="https://developers.google.com/web/updates/2015/09/using-manifest-to-set-sitewide-theme-color?hl=en">More about theme colour</a>) </p>
+            <label>Choose theme colour
                 <input type="color" name="themecolor" value='#ffffff'>
             </label>
-        </p>
+        </section>
+
     </form>
+    <section>
+    <h2>Results!</h2>
     <div id="errors"></div>
-    <p><a href="#" id="dl" download="offline.manifest">Download <em>offline.manifest</em></a></p>
+    <p>You can download your generated manifest file, and put it on your website. Link to it by adding this line: <code>&lt;link rel="manifest" href="manifest.json"></code> just before the line <code>&lt;/head></code> in your HTML.</p> 
+    <p><a href="#" id="dl" download="manifest.json">Download <em>manifest.json</em></a></p>
+    <p>Alternatively, copy and paste the code below. (It's identical to the donwloadable file)</p>
     <pre>...</pre>
+    </section>
+
+    <footer><p>The Manifest Generator is made by Stuart Langridge (<a href="http://www.kryogenix.org/">kryogenix.org</a>) and Bruce Lawson of <a href="http://dev.opera.com/">Opera</a>, the browser that lets you do more.</p>
+    <p>It uses <a href="http://crossorigin.me/">crossorigin.me</a>, “the free CORS proxy for everyone”, by <a href="https://github.com/technoboy10">technoboy10</a>. Please use it responsibly.</p>
+    </footer>
+
     <script>
     var m = {
         "lang": "en",
