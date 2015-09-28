@@ -561,7 +561,7 @@ footer {font-size: small; text-align: center; padding-bottom:75px;
             manifest.orientation = document.querySelector("[name=orientation]:checked").value;
             if (manifest.orientation === "none") delete manifest.orientation;
             manifest.background_color = document.getElementsByName("bgcolor")[0].value;
-            manifest.theme_color = document.getElementsByName("themecolor")[0].value;
+    //        manifest.theme_color = document.getElementsByName("themecolor")[0].value;
             manifest.name = document.getElementsByName("name")[0].value;
             manifest.short_name = document.getElementsByName("short_name")[0].value;
             if (manifest.short_name.length > 12) {
