@@ -349,20 +349,18 @@ footer {font-size: small; text-align: center; padding-bottom:75px;
         <h2>First</h2>
         <p>Tell us the address of your site and click "check my site". The page will then look at your site and get any useful information and usable icons it can from the publicly-available information in the code.</p>
             <div>
-            <label>Enter your address (must be <samp>https://</samp>: 
+            <label>Enter your address (must be <samp>https://</samp>): 
                 <input name="url" type="url" pattern="https://.+" size="30" value="https://dev.opera.com" required>
             </label>
             <input type="submit" value="Check my site">
            </div>
-        </section>
 
-        <section>
         <h2>Results!</h2>
-        <div id="errors"></div>
-        <p>You can download your generated manifest file, and put it on your website. Link to it by adding this line: <code>&lt;link rel="manifest" href="manifest.json"></code> just before the line <code>&lt;/head></code> in your HTML.</p> 
-        <p><a href="#" id="dl" download="manifest.json">Download <em>manifest.json</em></a></p>
-        <p>Alternatively, copy and paste the code below. (It's identical to the donwloadable file)</p>
         <pre>...</pre>
+        <div id="errors"></div>
+        <p><a href="#" id="dl" download="manifest.json">Download <em>manifest.json</em></a></p>
+        <p>You can download your generated manifest file, and put it on your website. Link to it by adding this line: <code>&lt;link rel="manifest" href="manifest.json"></code> just before the line <code>&lt;/head></code> in your HTML.</p> 
+
         </section>
         
         <section>
