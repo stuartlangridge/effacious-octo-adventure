@@ -349,8 +349,8 @@ footer {font-size: small; text-align: center; padding-bottom:75px;
         <h2>First</h2>
         <p>Tell us the address of your site and click "check my site". The page will then look at your site and get any useful information and usable icons it can from the publicly-available information in the code.</p>
             <div>
-            <label>Enter your address: 
-                <input name="url" type="url" size="30" value="https://dev.opera.com">
+            <label>Enter your address (must be <samp>https://</samp>: 
+                <input name="url" type="url" pattern="https://.+" size="30" value="https://dev.opera.com" required>
             </label>
             <input type="submit" value="Check my site">
            </div>
