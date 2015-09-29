@@ -4,15 +4,15 @@
 
 <head>
     <meta charset="utf8">
-    <meta name="viewport" content="width=device-width, user-scalable=no">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
     <title>Manifest generator</title>
     <script src="es6-promise.min.js"></script>
-    <link rel="stylesheet" type="text/css" href="normalise.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/3.0.3/normalize.min.css">
     <style>
     #dl {
         display: none;
     }
-    
+
     pre {
         overflow-y: auto;
         background: #ccc;
@@ -44,7 +44,7 @@
             top: 0%;
         }
     }
-    
+
     @-webkit-keyframes pong-loader {
         0% {
             left: 5px;
@@ -69,7 +69,7 @@
             top: 0%;
         }
     }
-    
+
     @keyframes pong-loader {
         0% {
             left: 5px;
@@ -94,7 +94,7 @@
             top: 0%;
         }
     }
-    
+
     @-moz-keyframes pong-loader-paddle-1 {
         0% {
             -moz-box-shadow: inset #353c39 0 5px 0 0, inset #353c39 0 -35px 0 0, inset #353c39 -3px 0 0 0, inset #8cdb8b -10px 0 0 0;
@@ -121,7 +121,7 @@
             box-shadow: inset #353c39 0 5px 0 0, inset #353c39 0 -35px 0 0, inset #353c39 -3px 0 0 0, inset #8cdb8b -10px 0 0 0;
         }
     }
-    
+
     @-webkit-keyframes pong-loader-paddle-1 {
         0% {
             -webkit-box-shadow: inset #353c39 0 5px 0 0, inset #353c39 0 -35px 0 0, inset #353c39 -3px 0 0 0, inset #8cdb8b -10px 0 0 0;
@@ -148,7 +148,7 @@
             box-shadow: inset #353c39 0 5px 0 0, inset #353c39 0 -35px 0 0, inset #353c39 -3px 0 0 0, inset #8cdb8b -10px 0 0 0;
         }
     }
-    
+
     @keyframes pong-loader-paddle-1 {
         0% {
             -moz-box-shadow: inset #353c39 0 5px 0 0, inset #353c39 0 -35px 0 0, inset #353c39 -3px 0 0 0, inset #8cdb8b -10px 0 0 0;
@@ -181,7 +181,7 @@
             box-shadow: inset #353c39 0 5px 0 0, inset #353c39 0 -35px 0 0, inset #353c39 -3px 0 0 0, inset #8cdb8b -10px 0 0 0;
         }
     }
-    
+
     @-moz-keyframes pong-loader-paddle-2 {
         0% {
             -moz-box-shadow: inset #353c39 0 0 0 0, inset #353c39 0 -40px 0 0, inset #353c39 3px 0 0 0, inset #8cdb8b -10px 0 0 0;
@@ -204,7 +204,7 @@
             box-shadow: inset #353c39 0 0 0 0, inset #353c39 0 -40px 0 0, inset #353c39 3px 0 0 0, inset #8cdb8b -10px 0 0 0;
         }
     }
-    
+
     @-webkit-keyframes pong-loader-paddle-2 {
         0% {
             -webkit-box-shadow: inset #353c39 0 0 0 0, inset #353c39 0 -40px 0 0, inset #353c39 3px 0 0 0, inset #8cdb8b -10px 0 0 0;
@@ -227,7 +227,7 @@
             box-shadow: inset #353c39 0 0 0 0, inset #353c39 0 -40px 0 0, inset #353c39 3px 0 0 0, inset #8cdb8b -10px 0 0 0;
         }
     }
-    
+
     @keyframes pong-loader-paddle-2 {
         0% {
             -moz-box-shadow: inset #353c39 0 0 0 0, inset #353c39 0 -40px 0 0, inset #353c39 3px 0 0 0, inset #8cdb8b -10px 0 0 0;
@@ -256,7 +256,7 @@
         }
     }
     /* :not(:required) hides this rule from IE9 and below */
-    
+
     .pong-loader:not(:required) {
         width: 80px;
         height: 60px;
@@ -272,7 +272,7 @@
         -webkit-animation: pong-loader-paddle-1 1500ms infinite linear;
         animation: pong-loader-paddle-1 1500ms infinite linear;
     }
-    
+
     .pong-loader:not(:required):before {
         -moz-animation: pong-loader-paddle-2 1500ms infinite linear;
         -webkit-animation: pong-loader-paddle-2 1500ms infinite linear;
@@ -288,7 +288,7 @@
         -webkit-box-shadow: inset #353c39 0 0 0 0, inset #353c39 0 -40px 0 0, inset #353c39 -3px 0 0 0, inset #8cdb8b -10px 0 0 0;
         box-shadow: inset #353c39 0 0 0 0, inset #353c39 0 -40px 0 0, inset #353c39 -3px 0 0 0, inset #8cdb8b -10px 0 0 0;
     }
-    
+
     .pong-loader:not(:required):after {
         content: "";
         display: block;
@@ -322,14 +322,14 @@ h1 {color: rgb(220, 20, 31);}
 
 section {border-top: 1px solid #ccc; margin-bottom:1em;}
 
-footer {font-size: small; text-align: center; padding-bottom:75px; 
+footer {font-size: small; text-align: center; padding-bottom:75px;
         background: url(logo.png) center bottom no-repeat;}
 
 
     </style>
     <script src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/spectrum/1.7.1/spectrum.min.js"></script>
-    <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/spectrum/1.7.1/spectrum.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/spectrum/1.7.1/spectrum.min.css">
 </head>
 
 <body>
@@ -349,7 +349,7 @@ footer {font-size: small; text-align: center; padding-bottom:75px;
         <h2>First</h2>
         <p>Tell us the address of your site and click "check my site". The page will then look at your site and get any useful information and usable icons it can from the publicly-available information in the code.</p>
             <div>
-            <label>Enter your address: 
+            <label>Enter your address:
                 <input name="url" type="url" size="30" value="http://www.opera.com">
             </label>
             <input type="submit" value="Check my site">
@@ -389,10 +389,10 @@ footer {font-size: small; text-align: center; padding-bottom:75px;
 
         <h3>Start full screen?</h3>
         <p>Sites served over <code>https</code> can start fullscreen, and if so you can check the box to tell Android to start your site full-screen like any other app.</p><p>Insecure <code>http</code>-only sites can’t start full screen (because it’s a security risk; hackers could, for example, spoof a bank site.) Therefore, they start in a browser so the user can always see the real address. In this case, the checkbox is disabled.</p>
-    
+
         <div>
             <label>Fullscreen?
-                <input type="checkbox" name="fullscreen" disabled>
+                <input type="checkbox" name="fullscreen">
             </label>
         </div>
 
@@ -415,7 +415,7 @@ footer {font-size: small; text-align: center; padding-bottom:75px;
     <section>
     <h2>Results!</h2>
     <div id="errors"></div>
-    <p>You can download your generated manifest file, and put it on your website. Link to it by adding this line: <code>&lt;link rel="manifest" href="manifest.json"></code> just before the line <code>&lt;/head></code> in your HTML.</p> 
+    <p>You can download your generated manifest file, and put it on your website. Link to it by adding this line: <code>&lt;link rel="manifest" href="manifest.json"></code> just before the line <code>&lt;/head></code> in your HTML.</p>
     <p><a href="#" id="dl" download="manifest.json">Download <em>manifest.json</em></a></p>
     <p>Alternatively, copy and paste the code below. (It's identical to the donwloadable file)</p>
     <pre>...</pre>
@@ -533,7 +533,7 @@ footer {font-size: small; text-align: center; padding-bottom:75px;
         }
 
         function display(errors) {
-            document.querySelector("pre").firstChild.nodeValue = JSON.stringify(manifest, null, 2);
+            document.querySelector("pre").textContent = JSON.stringify(manifest, null, 2);
             document.getElementById("dl").style.display = "inline";
             var errel = document.getElementById("errors");
             errel.innerHTML = "";
