@@ -79,7 +79,7 @@
 
         <div>
             <label>Fullscreen?
-                <input type="checkbox" name="fullscreen" disabled>
+                <input type="checkbox" name="fullscreen">
             </label>
         </div>
 
@@ -239,7 +239,7 @@
             manifest.orientation = document.querySelector("[name=orientation]:checked").value;
             if (manifest.orientation === "none") delete manifest.orientation;
             manifest.background_color = document.getElementsByName("bgcolor")[0].value;
-    //        manifest.theme_color = document.getElementsByName("themecolor")[0].value;
+            //manifest.theme_color = document.getElementsByName("themecolor")[0].value;
             manifest.name = document.getElementsByName("name")[0].value;
             manifest.short_name = document.getElementsByName("short_name")[0].value;
             if (manifest.short_name.length > 12) {
@@ -331,10 +331,11 @@
                 }
             }, false);
         });
-        var textUrl = document.querySelector("[name=url]"),
-            cbFullscreen = document.querySelector("[name=fullscreen]");
-        textUrl.addEventListener("keyup", function(e) {
+        var textUrl = document.querySelector("[name=url]");
+        var cbFullscreen = document.querySelector("[name=fullscreen]");
+        textUrl.addEventListener("input", function(e) {
             if (textUrl.value.match(/^https:/)) {
+                console.log('match');
                 cbFullscreen.disabled = false;
             } else {
                 cbFullscreen.checked = false;
