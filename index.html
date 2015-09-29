@@ -13,7 +13,7 @@
 </head>
 
 <body>
-<h1>Manifest Generator TEST</h1>
+<h1>Manifest Generator</h1>
 <p>Would you like your website</p>
 <uL>
 <li>to feel like a native app (without writing one)?</li>
@@ -35,17 +35,15 @@
             <input type="submit" value="Check my site">
            </div>
 
-        <h2>Results!</h2>
         <pre>...</pre>
         <div id="errors"></div>
         <p><a href="#" id="dl" download="manifest.json">Download <em>manifest.json</em></a></p>
-        <p>You can download your generated manifest file, and put it on your website. Link to it by adding this line: <code>&lt;link rel="manifest" href="manifest.json"></code> just before the line <code>&lt;/head></code> in your HTML.</p>
-
+        <p>Choose any options below and the manifest will be automatically updated. Link to it by adding this line: <code>&lt;link rel="manifest" href="manifest.json"></code> just before the line <code>&lt;/head></code> in your HTML.</p>
         </section>
 
         <section>
     <h2>Next&hellip;</h2>
-    <p>We got this information your site. Change it, if you want. The <code>short name</code> is what will actually be shown below your icon on the Android homescreen — keep it short!</p>
+    <p>We got this information your site. Change it, if you want. The <code>short_name</code> is what will actually be shown below your icon on the Android homescreen — keep it short!</p>
         <div id="names">
             <label for="l-name">Name</label>
             <input id="l-name" name="name" type="text" maxlength="45" size="45" value="">
@@ -76,7 +74,11 @@
 
         <h3>Start full screen?</h3>
         <p>Sites served over <code>https</code> can start fullscreen, and if so you can check the box to tell Android to start your site full-screen like any other app.</p>
+<!--
+
         <p>Insecure <code>http</code>-only sites can’t start full screen (because it’s a security risk; hackers could, for example, spoof a bank site.) Therefore, they start in a browser so the user can always see the real address. In this case, the checkbox is disabled.</p>
+
+-->
 
         <div>
             <label>Fullscreen?
@@ -109,7 +111,9 @@
     </form>
 
 
-    <footer><p>The Manifest Generator is made by Stuart Langridge (<a href="http://www.kryogenix.org/">kryogenix.org</a>) and Bruce Lawson of <a href="http://dev.opera.com/">Opera</a>, the browser that lets you do more.</p>
+    <footer>
+    <p><i>The reach of the web. The UX of apps. It's your site's manifest destiny.</i></p>
+    <p>The Manifest Generator is made by Stuart Langridge (<a href="http://www.kryogenix.org/">kryogenix.org</a>) and Bruce Lawson of <a href="http://dev.opera.com/">Opera</a>, the browser that lets you do more.</p>
     <p>It uses <a href="http://crossorigin.me/">crossorigin.me</a>, “the free CORS proxy for everyone”, by <a href="https://github.com/technoboy10">technoboy10</a>. Please use it responsibly.</p>
     </footer>
 
