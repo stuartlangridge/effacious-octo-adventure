@@ -368,7 +368,7 @@ h1, footer i {
 
 section {
 	border-bottom: 1px solid #ccc;
-	margin: 1em 0;
+	padding-bottom:1em;
 }
 
 footer {
