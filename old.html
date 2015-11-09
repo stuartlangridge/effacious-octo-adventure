@@ -1,0 +1,670 @@
+
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>Manifest generator</title>
+    <script src="es6-promise.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/3.0.3/normalize.min.css">
+    <style>
+    #dl {
+        display: none;
+    }
+
+    pre {
+        overflow-y: auto;
+        background: #ccc;
+        height: 12em;
+        padding: 0.5em;
+    }
+
+    @-moz-keyframes pong-loader {
+        0% {
+            left: 5px;
+            top: 0;
+        }
+        25% {
+            left: 65px;
+            top: 20px;
+        }
+        50% {
+            left: 5px;
+        }
+        62.5% {
+            top: 50px;
+        }
+        75% {
+            left: 65px;
+            top: 70%;
+        }
+        100% {
+            left: 5px;
+            top: 0%;
+        }
+    }
+
+    @-webkit-keyframes pong-loader {
+        0% {
+            left: 5px;
+            top: 0;
+        }
+        25% {
+            left: 65px;
+            top: 20px;
+        }
+        50% {
+            left: 5px;
+        }
+        62.5% {
+            top: 50px;
+        }
+        75% {
+            left: 65px;
+            top: 70%;
+        }
+        100% {
+            left: 5px;
+            top: 0%;
+        }
+    }
+
+    @keyframes pong-loader {
+        0% {
+            left: 5px;
+            top: 0;
+        }
+        25% {
+            left: 65px;
+            top: 20px;
+        }
+        50% {
+            left: 5px;
+        }
+        62.5% {
+            top: 50px;
+        }
+        75% {
+            left: 65px;
+            top: 70%;
+        }
+        100% {
+            left: 5px;
+            top: 0%;
+        }
+    }
+
+    @-moz-keyframes pong-loader-paddle-1 {
+        0% {
+            -moz-box-shadow: inset #353c39 0 5px 0 0, inset #353c39 0 -35px 0 0, inset #353c39 -3px 0 0 0, inset #8cdb8b -10px 0 0 0;
+            box-shadow: inset #353c39 0 5px 0 0, inset #353c39 0 -35px 0 0, inset #353c39 -3px 0 0 0, inset #8cdb8b -10px 0 0 0;
+        }
+        25% {
+            -moz-box-shadow: inset #353c39 0 15px 0 0, inset #353c39 0 -25px 0 0, inset #353c39 -3px 0 0 0, inset #8cdb8b -10px 0 0 0;
+            box-shadow: inset #353c39 0 15px 0 0, inset #353c39 0 -25px 0 0, inset #353c39 -3px 0 0 0, inset #8cdb8b -10px 0 0 0;
+        }
+        50% {
+            -moz-box-shadow: inset #353c39 0 0 0 0, inset #353c39 0 -40px 0 0, inset #353c39 -3px 0 0 0, inset #8cdb8b -10px 0 0 0;
+            box-shadow: inset #353c39 0 0 0 0, inset #353c39 0 -40px 0 0, inset #353c39 -3px 0 0 0, inset #8cdb8b -10px 0 0 0;
+        }
+        62.5% {
+            -moz-box-shadow: inset #353c39 0 10px 0 0, inset #353c39 0 -30px 0 0, inset #353c39 -3px 0 0 0, inset #8cdb8b -10px 0 0 0;
+            box-shadow: inset #353c39 0 10px 0 0, inset #353c39 0 -30px 0 0, inset #353c39 -3px 0 0 0, inset #8cdb8b -10px 0 0 0;
+        }
+        75% {
+            -moz-box-shadow: inset #353c39 0 40px 0 0, inset #353c39 0 0 0 0, inset #353c39 -3px 0 0 0, inset #8cdb8b -10px 0 0 0;
+            box-shadow: inset #353c39 0 40px 0 0, inset #353c39 0 0 0 0, inset #353c39 -3px 0 0 0, inset #8cdb8b -10px 0 0 0;
+        }
+        100% {
+            -moz-box-shadow: inset #353c39 0 5px 0 0, inset #353c39 0 -35px 0 0, inset #353c39 -3px 0 0 0, inset #8cdb8b -10px 0 0 0;
+            box-shadow: inset #353c39 0 5px 0 0, inset #353c39 0 -35px 0 0, inset #353c39 -3px 0 0 0, inset #8cdb8b -10px 0 0 0;
+        }
+    }
+
+    @-webkit-keyframes pong-loader-paddle-1 {
+        0% {
+            -webkit-box-shadow: inset #353c39 0 5px 0 0, inset #353c39 0 -35px 0 0, inset #353c39 -3px 0 0 0, inset #8cdb8b -10px 0 0 0;
+            box-shadow: inset #353c39 0 5px 0 0, inset #353c39 0 -35px 0 0, inset #353c39 -3px 0 0 0, inset #8cdb8b -10px 0 0 0;
+        }
+        25% {
+            -webkit-box-shadow: inset #353c39 0 15px 0 0, inset #353c39 0 -25px 0 0, inset #353c39 -3px 0 0 0, inset #8cdb8b -10px 0 0 0;
+            box-shadow: inset #353c39 0 15px 0 0, inset #353c39 0 -25px 0 0, inset #353c39 -3px 0 0 0, inset #8cdb8b -10px 0 0 0;
+        }
+        50% {
+            -webkit-box-shadow: inset #353c39 0 0 0 0, inset #353c39 0 -40px 0 0, inset #353c39 -3px 0 0 0, inset #8cdb8b -10px 0 0 0;
+            box-shadow: inset #353c39 0 0 0 0, inset #353c39 0 -40px 0 0, inset #353c39 -3px 0 0 0, inset #8cdb8b -10px 0 0 0;
+        }
+        62.5% {
+            -webkit-box-shadow: inset #353c39 0 10px 0 0, inset #353c39 0 -30px 0 0, inset #353c39 -3px 0 0 0, inset #8cdb8b -10px 0 0 0;
+            box-shadow: inset #353c39 0 10px 0 0, inset #353c39 0 -30px 0 0, inset #353c39 -3px 0 0 0, inset #8cdb8b -10px 0 0 0;
+        }
+        75% {
+            -webkit-box-shadow: inset #353c39 0 40px 0 0, inset #353c39 0 0 0 0, inset #353c39 -3px 0 0 0, inset #8cdb8b -10px 0 0 0;
+            box-shadow: inset #353c39 0 40px 0 0, inset #353c39 0 0 0 0, inset #353c39 -3px 0 0 0, inset #8cdb8b -10px 0 0 0;
+        }
+        100% {
+            -webkit-box-shadow: inset #353c39 0 5px 0 0, inset #353c39 0 -35px 0 0, inset #353c39 -3px 0 0 0, inset #8cdb8b -10px 0 0 0;
+            box-shadow: inset #353c39 0 5px 0 0, inset #353c39 0 -35px 0 0, inset #353c39 -3px 0 0 0, inset #8cdb8b -10px 0 0 0;
+        }
+    }
+
+    @keyframes pong-loader-paddle-1 {
+        0% {
+            -moz-box-shadow: inset #353c39 0 5px 0 0, inset #353c39 0 -35px 0 0, inset #353c39 -3px 0 0 0, inset #8cdb8b -10px 0 0 0;
+            -webkit-box-shadow: inset #353c39 0 5px 0 0, inset #353c39 0 -35px 0 0, inset #353c39 -3px 0 0 0, inset #8cdb8b -10px 0 0 0;
+            box-shadow: inset #353c39 0 5px 0 0, inset #353c39 0 -35px 0 0, inset #353c39 -3px 0 0 0, inset #8cdb8b -10px 0 0 0;
+        }
+        25% {
+            -moz-box-shadow: inset #353c39 0 15px 0 0, inset #353c39 0 -25px 0 0, inset #353c39 -3px 0 0 0, inset #8cdb8b -10px 0 0 0;
+            -webkit-box-shadow: inset #353c39 0 15px 0 0, inset #353c39 0 -25px 0 0, inset #353c39 -3px 0 0 0, inset #8cdb8b -10px 0 0 0;
+            box-shadow: inset #353c39 0 15px 0 0, inset #353c39 0 -25px 0 0, inset #353c39 -3px 0 0 0, inset #8cdb8b -10px 0 0 0;
+        }
+        50% {
+            -moz-box-shadow: inset #353c39 0 0 0 0, inset #353c39 0 -40px 0 0, inset #353c39 -3px 0 0 0, inset #8cdb8b -10px 0 0 0;
+            -webkit-box-shadow: inset #353c39 0 0 0 0, inset #353c39 0 -40px 0 0, inset #353c39 -3px 0 0 0, inset #8cdb8b -10px 0 0 0;
+            box-shadow: inset #353c39 0 0 0 0, inset #353c39 0 -40px 0 0, inset #353c39 -3px 0 0 0, inset #8cdb8b -10px 0 0 0;
+        }
+        62.5% {
+            -moz-box-shadow: inset #353c39 0 10px 0 0, inset #353c39 0 -30px 0 0, inset #353c39 -3px 0 0 0, inset #8cdb8b -10px 0 0 0;
+            -webkit-box-shadow: inset #353c39 0 10px 0 0, inset #353c39 0 -30px 0 0, inset #353c39 -3px 0 0 0, inset #8cdb8b -10px 0 0 0;
+            box-shadow: inset #353c39 0 10px 0 0, inset #353c39 0 -30px 0 0, inset #353c39 -3px 0 0 0, inset #8cdb8b -10px 0 0 0;
+        }
+        75% {
+            -moz-box-shadow: inset #353c39 0 40px 0 0, inset #353c39 0 0 0 0, inset #353c39 -3px 0 0 0, inset #8cdb8b -10px 0 0 0;
+            -webkit-box-shadow: inset #353c39 0 40px 0 0, inset #353c39 0 0 0 0, inset #353c39 -3px 0 0 0, inset #8cdb8b -10px 0 0 0;
+            box-shadow: inset #353c39 0 40px 0 0, inset #353c39 0 0 0 0, inset #353c39 -3px 0 0 0, inset #8cdb8b -10px 0 0 0;
+        }
+        100% {
+            -moz-box-shadow: inset #353c39 0 5px 0 0, inset #353c39 0 -35px 0 0, inset #353c39 -3px 0 0 0, inset #8cdb8b -10px 0 0 0;
+            -webkit-box-shadow: inset #353c39 0 5px 0 0, inset #353c39 0 -35px 0 0, inset #353c39 -3px 0 0 0, inset #8cdb8b -10px 0 0 0;
+            box-shadow: inset #353c39 0 5px 0 0, inset #353c39 0 -35px 0 0, inset #353c39 -3px 0 0 0, inset #8cdb8b -10px 0 0 0;
+        }
+    }
+
+    @-moz-keyframes pong-loader-paddle-2 {
+        0% {
+            -moz-box-shadow: inset #353c39 0 0 0 0, inset #353c39 0 -40px 0 0, inset #353c39 3px 0 0 0, inset #8cdb8b -10px 0 0 0;
+            box-shadow: inset #353c39 0 0 0 0, inset #353c39 0 -40px 0 0, inset #353c39 3px 0 0 0, inset #8cdb8b -10px 0 0 0;
+        }
+        50% {
+            -moz-box-shadow: inset #353c39 0 30px 0 0, inset #353c39 0 -10px 0 0, inset #353c39 3px 0 0 0, inset #8cdb8b -10px 0 0 0;
+            box-shadow: inset #353c39 0 30px 0 0, inset #353c39 0 -10px 0 0, inset #353c39 3px 0 0 0, inset #8cdb8b -10px 0 0 0;
+        }
+        62.5% {
+            -moz-box-shadow: inset #353c39 0 40px 0 0, inset #353c39 0 0 0 0, inset #353c39 3px 0 0 0, inset #8cdb8b -10px 0 0 0;
+            box-shadow: inset #353c39 0 40px 0 0, inset #353c39 0 0 0 0, inset #353c39 3px 0 0 0, inset #8cdb8b -10px 0 0 0;
+        }
+        75% {
+            -moz-box-shadow: inset #353c39 0 20px 0 0, inset #353c39 0 -20px 0 0, inset #353c39 3px 0 0 0, inset #8cdb8b -10px 0 0 0;
+            box-shadow: inset #353c39 0 20px 0 0, inset #353c39 0 -20px 0 0, inset #353c39 3px 0 0 0, inset #8cdb8b -10px 0 0 0;
+        }
+        100% {
+            -moz-box-shadow: inset #353c39 0 0 0 0, inset #353c39 0 -40px 0 0, inset #353c39 3px 0 0 0, inset #8cdb8b -10px 0 0 0;
+            box-shadow: inset #353c39 0 0 0 0, inset #353c39 0 -40px 0 0, inset #353c39 3px 0 0 0, inset #8cdb8b -10px 0 0 0;
+        }
+    }
+
+    @-webkit-keyframes pong-loader-paddle-2 {
+        0% {
+            -webkit-box-shadow: inset #353c39 0 0 0 0, inset #353c39 0 -40px 0 0, inset #353c39 3px 0 0 0, inset #8cdb8b -10px 0 0 0;
+            box-shadow: inset #353c39 0 0 0 0, inset #353c39 0 -40px 0 0, inset #353c39 3px 0 0 0, inset #8cdb8b -10px 0 0 0;
+        }
+        50% {
+            -webkit-box-shadow: inset #353c39 0 30px 0 0, inset #353c39 0 -10px 0 0, inset #353c39 3px 0 0 0, inset #8cdb8b -10px 0 0 0;
+            box-shadow: inset #353c39 0 30px 0 0, inset #353c39 0 -10px 0 0, inset #353c39 3px 0 0 0, inset #8cdb8b -10px 0 0 0;
+        }
+        62.5% {
+            -webkit-box-shadow: inset #353c39 0 40px 0 0, inset #353c39 0 0 0 0, inset #353c39 3px 0 0 0, inset #8cdb8b -10px 0 0 0;
+            box-shadow: inset #353c39 0 40px 0 0, inset #353c39 0 0 0 0, inset #353c39 3px 0 0 0, inset #8cdb8b -10px 0 0 0;
+        }
+        75% {
+            -webkit-box-shadow: inset #353c39 0 20px 0 0, inset #353c39 0 -20px 0 0, inset #353c39 3px 0 0 0, inset #8cdb8b -10px 0 0 0;
+            box-shadow: inset #353c39 0 20px 0 0, inset #353c39 0 -20px 0 0, inset #353c39 3px 0 0 0, inset #8cdb8b -10px 0 0 0;
+        }
+        100% {
+            -webkit-box-shadow: inset #353c39 0 0 0 0, inset #353c39 0 -40px 0 0, inset #353c39 3px 0 0 0, inset #8cdb8b -10px 0 0 0;
+            box-shadow: inset #353c39 0 0 0 0, inset #353c39 0 -40px 0 0, inset #353c39 3px 0 0 0, inset #8cdb8b -10px 0 0 0;
+        }
+    }
+
+    @keyframes pong-loader-paddle-2 {
+        0% {
+            -moz-box-shadow: inset #353c39 0 0 0 0, inset #353c39 0 -40px 0 0, inset #353c39 3px 0 0 0, inset #8cdb8b -10px 0 0 0;
+            -webkit-box-shadow: inset #353c39 0 0 0 0, inset #353c39 0 -40px 0 0, inset #353c39 3px 0 0 0, inset #8cdb8b -10px 0 0 0;
+            box-shadow: inset #353c39 0 0 0 0, inset #353c39 0 -40px 0 0, inset #353c39 3px 0 0 0, inset #8cdb8b -10px 0 0 0;
+        }
+        50% {
+            -moz-box-shadow: inset #353c39 0 30px 0 0, inset #353c39 0 -10px 0 0, inset #353c39 3px 0 0 0, inset #8cdb8b -10px 0 0 0;
+            -webkit-box-shadow: inset #353c39 0 30px 0 0, inset #353c39 0 -10px 0 0, inset #353c39 3px 0 0 0, inset #8cdb8b -10px 0 0 0;
+            box-shadow: inset #353c39 0 30px 0 0, inset #353c39 0 -10px 0 0, inset #353c39 3px 0 0 0, inset #8cdb8b -10px 0 0 0;
+        }
+        62.5% {
+            -moz-box-shadow: inset #353c39 0 40px 0 0, inset #353c39 0 0 0 0, inset #353c39 3px 0 0 0, inset #8cdb8b -10px 0 0 0;
+            -webkit-box-shadow: inset #353c39 0 40px 0 0, inset #353c39 0 0 0 0, inset #353c39 3px 0 0 0, inset #8cdb8b -10px 0 0 0;
+            box-shadow: inset #353c39 0 40px 0 0, inset #353c39 0 0 0 0, inset #353c39 3px 0 0 0, inset #8cdb8b -10px 0 0 0;
+        }
+        75% {
+            -moz-box-shadow: inset #353c39 0 20px 0 0, inset #353c39 0 -20px 0 0, inset #353c39 3px 0 0 0, inset #8cdb8b -10px 0 0 0;
+            -webkit-box-shadow: inset #353c39 0 20px 0 0, inset #353c39 0 -20px 0 0, inset #353c39 3px 0 0 0, inset #8cdb8b -10px 0 0 0;
+            box-shadow: inset #353c39 0 20px 0 0, inset #353c39 0 -20px 0 0, inset #353c39 3px 0 0 0, inset #8cdb8b -10px 0 0 0;
+        }
+        100% {
+            -moz-box-shadow: inset #353c39 0 0 0 0, inset #353c39 0 -40px 0 0, inset #353c39 3px 0 0 0, inset #8cdb8b -10px 0 0 0;
+            -webkit-box-shadow: inset #353c39 0 0 0 0, inset #353c39 0 -40px 0 0, inset #353c39 3px 0 0 0, inset #8cdb8b -10px 0 0 0;
+            box-shadow: inset #353c39 0 0 0 0, inset #353c39 0 -40px 0 0, inset #353c39 3px 0 0 0, inset #8cdb8b -10px 0 0 0;
+        }
+    }
+    /* :not(:required) hides this rule from IE9 and below */
+
+    .pong-loader:not(:required) {
+        width: 80px;
+        height: 60px;
+        background: #353c39;
+        position: relative;
+        display: inline-block;
+        overflow: hidden;
+        text-indent: 100%;
+        -moz-box-shadow: inset #353c39 0 0 0 0, inset #353c39 0 -40px 0 0, inset #353c39 -3px 0 0 0, inset #8cdb8b -10px 0 0 0;
+        -webkit-box-shadow: inset #353c39 0 0 0 0, inset #353c39 0 -40px 0 0, inset #353c39 -3px 0 0 0, inset #8cdb8b -10px 0 0 0;
+        box-shadow: inset #353c39 0 0 0 0, inset #353c39 0 -40px 0 0, inset #353c39 -3px 0 0 0, inset #8cdb8b -10px 0 0 0;
+        -moz-animation: pong-loader-paddle-1 1500ms infinite linear;
+        -webkit-animation: pong-loader-paddle-1 1500ms infinite linear;
+        animation: pong-loader-paddle-1 1500ms infinite linear;
+    }
+
+    .pong-loader:not(:required):before {
+        -moz-animation: pong-loader-paddle-2 1500ms infinite linear;
+        -webkit-animation: pong-loader-paddle-2 1500ms infinite linear;
+        animation: pong-loader-paddle-2 1500ms infinite linear;
+        position: absolute;
+        top: 0;
+        left: 0;
+        display: block;
+        content: "";
+        width: 10px;
+        height: 100%;
+        -moz-box-shadow: inset #353c39 0 0 0 0, inset #353c39 0 -40px 0 0, inset #353c39 -3px 0 0 0, inset #8cdb8b -10px 0 0 0;
+        -webkit-box-shadow: inset #353c39 0 0 0 0, inset #353c39 0 -40px 0 0, inset #353c39 -3px 0 0 0, inset #8cdb8b -10px 0 0 0;
+        box-shadow: inset #353c39 0 0 0 0, inset #353c39 0 -40px 0 0, inset #353c39 -3px 0 0 0, inset #8cdb8b -10px 0 0 0;
+    }
+
+    .pong-loader:not(:required):after {
+        content: "";
+        display: block;
+        -moz-animation: pong-loader 1500ms infinite linear;
+        -webkit-animation: pong-loader 1500ms infinite linear;
+        animation: pong-loader 1500ms infinite linear;
+        -moz-border-radius: 50%;
+        -webkit-border-radius: 50%;
+        border-radius: 50%;
+        position: absolute;
+        left: 0;
+        top: 0;
+        width: 10px;
+        height: 10px;
+        background: #8cdb8b;
+    }
+
+/* As Archimedes said, "Εα φοσεντ σπλενδιδε πρω. Εαμ μυνερε αλτερα σωνσεπθαμ νε, αδ ιγνωθα ινφενιρε μεα. Δυο εξ δεσωρε φολυμυς φερθερεμ, υθ νες διστα περφεσθο. Εαμ ελιτ βωνορυμ ευ. Κυι εα φασερ πρωπριαε τασιμαθες, ναμ φιδε σονσυλατυ ραθιονιβυς εξ.", or "If you have absolutely no design sensibility at all, keep if very simple and don't muck about with CSS, you oaf." */
+
+
+html {
+    background-color: rgb(245,245,245);
+}
+body {padding:1em 3em; max-width:50em; margin:0 auto;
+    font-family:"Trebuchet MS", Helvetica, sans-serif;
+    line-height:1.8;
+    background-color:white;
+}
+
+h1 {color: rgb(220, 20, 31);}
+
+section {border-top: 1px solid #ccc; margin-bottom:1em;}
+
+footer {font-size: small; text-align: center; padding-bottom:75px;
+        background: url(logo.png) center bottom no-repeat;}
+
+
+    </style>
+    <script src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/spectrum/1.7.1/spectrum.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/spectrum/1.7.1/spectrum.min.css">
+</head>
+
+<body>
+<h1>Manifest Generator</h1>
+<p>Would you like your website</p>
+<uL>
+<li>to feel like a native app (without writing one)?</li>
+<li>to appear on the user's Android homescreen?</li>
+<li>to start full screen (rather than in a browser)?</li>
+</ul>
+<p>If so, this simple page will generate the manifest file for you to put on your server to make it happen in Chrome and Opera for Android. (<a href="http://html5doctor.com/web-manifest-specification/">More about the web manifest format</a>, and download <a href="http://www.opera.com/mobile/operabrowser/android">Opera for Android</a> to try it out.)</p>
+
+
+
+    <form>
+        <section>
+        <h2>First</h2>
+        <p>Tell us the address of your site and click "check my site". The page will then look at your site and get any useful information and usable icons it can from the publicly-available information in the code.</p>
+            <div>
+            <label>Enter your address:
+                <input name="url" type="url" size="30" value="http://www.opera.com">
+            </label>
+            <input type="submit" value="Check my site">
+           </div>
+        </section>
+
+        <section>
+    <h2>Next&hellip;</h2>
+    <p>We got this information your site. Change it, if you want. The <code>short name</code> is what will actually be shown below your icon on the Android homescreen — keep it short!</p>
+        <div id="names">
+            <label for="l-name">Name</label>
+            <input id="l-name" name="name" type="text" maxlength="45" size="45" value="">
+
+        </div>
+
+
+        <div>
+            <label for="s-name">Short name</label>
+            <input id="s-name" name="short_name" type="text" size="12" value="">
+
+        </div>
+        </section>
+
+        <section>
+        <h2>Options</h2>
+        <h3>Set orientation</h3>
+
+        <p>Does your website/ app need to start at a certain orientation?</p>
+        <div class="orientation">Orientation:
+            <label>
+                <input type="radio" name="orientation" value="none" checked> none</label>
+            <label>
+                <input type="radio" name="orientation" value="portrait"> portrait</label>
+            <label>
+                <input type="radio" name="orientation" value="landscape"> landscape</label>
+        </div>
+
+        <h3>Start full screen?</h3>
+        <p>Sites served over <code>https</code> can start fullscreen, and if so you can check the box to tell Android to start your site full-screen like any other app.</p><p>Insecure <code>http</code>-only sites can’t start full screen (because it’s a security risk; hackers could, for example, spoof a bank site.) Therefore, they start in a browser so the user can always see the real address. In this case, the checkbox is disabled.</p>
+
+        <div>
+            <label>Fullscreen?
+                <input type="checkbox" name="fullscreen">
+            </label>
+        </div>
+
+        <h3>Set a background colour</h3>
+        <p>While your app is being loaded, the background fills the sceen to show your user that something is happening. You may want to choose the predominant colour in your page or branding. (<a target="_blank" href="https://developers.google.com/web/updates/2015/09/using-web-app-manifest-to-set-solid-color-loading-screen">More about background colour</a>)</p>
+        <div>
+            <label>Choose background colour
+                <input type="color" name="bgcolor" value='#ffffff'>
+            </label>
+        </div>
+        <h3>Set a theme colour</h3>
+        <div>
+        <p>Theme color is used to help your visitors identify your app in some system functions such as "task switching". (<a target="_blank" href="https://developers.google.com/web/updates/2015/09/using-manifest-to-set-sitewide-theme-color?hl=en">More about theme colour</a>) </p>
+            <label>Choose theme colour
+                <input type="color" name="themecolor" value='#ffffff'>
+            </label>
+        </section>
+
+    </form>
+    <section>
+    <h2>Results!</h2>
+    <div id="errors"></div>
+    <p>You can download your generated manifest file, and put it on your website. Link to it by adding this line: <code>&lt;link rel="manifest" href="manifest.json"></code> just before the line <code>&lt;/head></code> in your HTML.</p>
+    <p><a href="#" id="dl" download="manifest.json">Download <em>manifest.json</em></a></p>
+    <p>Alternatively, copy and paste the code below. (It's identical to the donwloadable file)</p>
+    <pre>...</pre>
+    </section>
+
+    <footer><p>The Manifest Generator is made by Stuart Langridge (<a href="http://www.kryogenix.org/">kryogenix.org</a>) and Bruce Lawson of <a href="http://dev.opera.com/">Opera</a>, the browser that lets you do more.</p>
+    <p>It uses <a href="http://crossorigin.me/">crossorigin.me</a>, “the free CORS proxy for everyone”, by <a href="https://github.com/technoboy10">technoboy10</a>. Please use it responsibly.</p>
+    </footer>
+
+     <script>
+    var m = {
+        "lang": "en",
+        "name": "Super Racer 2000",
+        "short_name": "Racer2K",
+        "icons": [{
+            "src": "icon/lowres",
+            "sizes": "64x64",
+            "type": "image/webp"
+        }, {
+            "src": "icon/hd_small",
+            "sizes": "64x64"
+        }, {
+            "src": "icon/hd_hi",
+            "sizes": "128x128",
+            "density": 2
+        }],
+        "splash_screens": [{
+            "src": "splash/lowres",
+            "sizes": "320x240"
+        }, {
+            "src": "splash/hd_small",
+            "sizes": "1334x750"
+        }, {
+            "src": "splash/hd_hi",
+            "sizes": "1920x1080",
+            "density": 3
+        }],
+        "scope": "/racer/",
+        "start_url": "/racer/start.html",
+        "display": "fullscreen",
+        "orientation": "landscape",
+        "theme_color": "aliceblue",
+        "background_color": "red"
+    };
+
+    (function() {
+
+        if (location.href.match(/^https:/)) {
+            location.href = location.href.replace(/^https:/, "http:");
+            return;
+        }
+
+        var manifest;
+        if (!window.URL && window.webkitURL) window.URL = window.webkitURL;
+
+        function getImageMimeType(imgurl, userdata) {
+            return new Promise(function(resolve, reject) {
+                var xhr = new XMLHttpRequest();
+                xhr.open("GET", "http://crossorigin.me/" + imgurl, true);
+                xhr.onload = function() {
+                    clearTimeout(tAbort);
+                    if (xhr.status == 200) {
+                        var img = new Image();
+                        img.onload = function() {
+                            resolve({
+                                url: imgurl,
+                                actualSize: img.naturalWidth + "x" + img.naturalHeight,
+                                userdata: userdata,
+                                mimetype: xhr.getResponseHeader("Content-Type")
+                            });
+                        };
+                        img.onerror = function() {
+                            reject(Error("Image load request failed"));
+                        };
+                        img.src = imgurl;
+                    } else {
+                        reject(Error("Mime-type request failed with status " + xhr.status + " and message " + xhr.statusText));
+                    }
+                };
+                xhr.onerror = function() {
+                    reject(Error("Network error"));
+                };
+                var tAbort = setTimeout(function() {
+                    xhr.abort();
+                    reject(Error("Mime-type request timed out"));
+                }, 1000);
+                xhr.send();
+            });
+        }
+
+        function reflect(promise) {
+            return promise.then(function(v) {
+                    return {
+                        v: v,
+                        status: "resolved"
+                    };
+                },
+                function(e) {
+                    return {
+                        e: e,
+                        status: "rejected"
+                    };
+                });
+        }
+
+        function setDownloadUrl() {
+            var a = document.getElementById('dl');
+            if (a) {
+                window.URL.revokeObjectURL(a.href);
+            }
+            var bb = new Blob([JSON.stringify(manifest, null, 2)], {
+                type: "text/plain"
+            });
+            a.href = window.URL.createObjectURL(bb);
+        }
+
+        function display(errors) {
+            document.querySelector("pre").textContent = JSON.stringify(manifest, null, 2);
+            document.getElementById("dl").style.display = "inline";
+            var errel = document.getElementById("errors");
+            errel.innerHTML = "";
+            var ul = document.createElement("ul");
+            errors.forEach(function(err) {
+                var li = document.createElement("li");
+                li.appendChild(document.createTextNode(err));
+                ul.appendChild(li);
+            });
+            errel.appendChild(ul);
+            document.querySelector("pre").classList.remove("pong-loader");
+        }
+
+        function updateUserSelections() {
+            var errors = [];
+            manifest.orientation = document.querySelector("[name=orientation]:checked").value;
+            if (manifest.orientation === "none") delete manifest.orientation;
+            manifest.background_color = document.getElementsByName("bgcolor")[0].value;
+            manifest.theme_color = document.getElementsByName("themecolor")[0].value;
+            manifest.name = document.getElementsByName("name")[0].value;
+            manifest.short_name = document.getElementsByName("short_name")[0].value;
+            if (manifest.short_name.length > 12) {
+                errors.push("Warning: short_name should be 12 characters or less");
+            }
+            delete manifest.fullscreen;
+            if (document.getElementsByName("fullscreen")[0].checked) {
+                manifest.display = "fullscreen";
+            }
+            return errors;
+        }
+
+        function parse(html) {
+            var d = document.createElement("div"), errors = [];
+            d.innerHTML = html;
+            manifest = {};
+            var mimeTypeFetches = [];
+
+            // Basic data
+            var title = d.querySelector("title");
+            if (title) {
+                document.getElementsByName("name")[0].value = title.textContent.substr(0,45);
+                document.getElementsByName("short_name")[0].value = title.textContent.substr(0,12);
+            }
+
+            // Language: can't pull this out of d because the html element doesn't get inserted, so, regexps it is. Sorry, Tony the Pony
+            var langmatch = html.match(/<html [^>]*\blang="([^"]+)"[^>]*>/i);
+            if (langmatch) {
+                manifest.lang = langmatch[1];
+            }
+
+            // User selections
+            errors = errors.concat(updateUserSelections());
+
+            // Apple touch icons
+            [].slice.call(d.querySelectorAll('link[rel="apple-touch-icon"][href],link[rel="apple-touch-icon-precomposed"][href]')).forEach(function(l) {
+                mimeTypeFetches.push(getImageMimeType(l.getAttribute("href"), {
+                    sizes: l.getAttribute("sizes")
+                }));
+            });
+
+            Promise.all(mimeTypeFetches.map(reflect)).then(function(results) { // we know they all pass because they're reflected
+                manifest.icons = results.filter(function(r) {
+                    return r.status == "resolved";
+                }).map(function(r) {
+                    return {
+                        src: r.v.url,
+                        type: r.v.mimetype,
+                        sizes: r.v.userdata.sizes,
+                        actualSize: r.v.actualSize
+                    };
+                });
+                if (manifest.icons.filter(function(i) { return i.sizes === "144x144"; }).length === 0) {
+                    manifest.icons.push({
+                        src: "YOU-NEED-TO-HAVE-A-144-x-144-ICON.png", sizes: "144x144", type: "image/png"
+                    });
+                }
+                display(errors);
+            });
+        }
+
+        function get(url) {
+            console.log("fetching...");
+            var xhr = new XMLHttpRequest();
+            xhr.open("GET", "http://crossorigin.me/" + url, true);
+            xhr.onload = function() {
+                if (xhr.status == 200) {
+                    parse(xhr.responseText);
+                } else {
+                    alert("didn't work. Soz.");
+                    document.querySelector("pre").classList.remove("pong-loader");
+                }
+            };
+            xhr.send();
+        }
+
+        [].slice.call(document.querySelectorAll("input[type=radio],input[type=color]")).forEach(function(widget) {
+            widget.addEventListener("change", function(e) {
+                if (manifest) {
+                    display(updateUserSelections());
+                }
+            }, false);
+        });
+        [].slice.call(document.querySelectorAll("input[type=text]")).forEach(function(widget) {
+            widget.addEventListener("keyup", function(e) {
+                if (manifest) {
+                    updateUserSelections();
+                    display(updateUserSelections());
+                }
+            }, false);
+        });
+        var textUrl = document.querySelector("[name=url]"),
+            cbFullscreen = document.querySelector("[name=fullscreen]");
+        textUrl.addEventListener("keyup", function(e) {
+            if (textUrl.value.match(/^https:/)) {
+                cbFullscreen.disabled = false;
+            } else {
+                cbFullscreen.checked = false;
+                cbFullscreen.disabled = true;
+            }
+        });
+
+        document.getElementById("dl").addEventListener("click", setDownloadUrl, false);
+
+        document.querySelector("form").addEventListener("submit", function(e) {
+            e.preventDefault();
+            document.querySelector("pre").classList.add("pong-loader");
+            get(document.querySelector("input[type=url]").value);
+        }, false);
+    })();
+    </script>
+
+</body>
+
+</html>
