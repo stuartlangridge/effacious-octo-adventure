@@ -131,7 +131,7 @@ var m = {
 		if (manifest.short_name.length > 12) {
 			errors.push("Warning: short_name should be 12 characters or less");
 		}
-		delete manifest.fullscreen;
+		delete manifest.display;
 		if (cbFullscreen.checked) {
 			manifest.display = "fullscreen";
 		}
